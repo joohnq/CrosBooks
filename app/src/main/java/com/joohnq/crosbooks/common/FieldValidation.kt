@@ -1,7 +1,7 @@
 package com.joohnq.crosbooks.common
 
+import com.joohnq.crosbooks.common.exceptions.CustomException
 import com.joohnq.crosbooks.common.exceptions.EmailException
-import com.joohnq.crosbooks.common.exceptions.NameException
 import com.joohnq.crosbooks.common.exceptions.PasswordConfirmException
 import com.joohnq.crosbooks.common.exceptions.PasswordException
 
@@ -21,7 +21,7 @@ object FieldValidation {
     }
 
     fun validateName(name: String): Boolean {
-        if (name.trim().isEmpty()) throw NameException.NameEmpty()
+        if (name.trim().isEmpty()) throw CustomException.NameCannotBeEmpty()
         return true
     }
 

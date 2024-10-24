@@ -4,16 +4,20 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import com.joohnq.core.adapter.BaseCustomAdapter
-import com.joohnq.crosbooks.view.state.RecyclerViewState
-import com.joohnq.crosbooks.view.viewholders.ViewHolderError
 import com.joohnq.crosbooks.databinding.BookItemBinding
+import com.joohnq.crosbooks.di.repositoryModule
 import com.joohnq.crosbooks.model.entities.Book
+import com.joohnq.crosbooks.view.state.RecyclerViewState
 import com.joohnq.crosbooks.view.viewholders.BooksItemViewHolder
 import com.joohnq.crosbooks.view.viewholders.ViewHolderEmpty
+import com.joohnq.crosbooks.view.viewholders.ViewHolderError
 import com.joohnq.crosbooks.view.viewholders.ViewHolderLoading
 import com.joohnq.crosbooks.view.viewholders.ViewHolderNothing
 
-class BooksAdapter :
+class BooksAdapter(
+    private val onClick: (Book) -> Unit,
+    private val onRemove: (Int) -> Unit
+) :
     BaseCustomAdapter<Book, ViewHolderNothing, ViewHolderLoading, ViewHolderEmpty, BooksItemViewHolder, ViewHolderError>() {
     override fun getJobDiffCallback(oldList: List<Book>, newList: List<Book>): DiffUtil.Callback {
         return object : DiffUtil.Callback() {
@@ -39,7 +43,7 @@ class BooksAdapter :
 
     override fun bindSuccessViewHolder(holder: BooksItemViewHolder, position: Int) {
         val item = (uiState as RecyclerViewState.Success<Book>).data[position]
-        holder.bind(item)
+        holder.bind(item, onClick, onRemove)
     }
 
     override fun bindErrorViewHolder(holder: ViewHolderError) {

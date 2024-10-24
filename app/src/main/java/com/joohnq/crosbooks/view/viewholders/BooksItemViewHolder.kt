@@ -7,7 +7,13 @@ import com.joohnq.crosbooks.model.entities.Book
 import com.joohnq.crosbooks.model.entities.Category
 
 class BooksItemViewHolder(private val binding: BookItemBinding) : ViewHolder(binding.root) {
-    fun bind(book: Book) {
+    fun bind(book: Book, onClick: (Book) -> Unit, onRemove: (Int) -> Unit) {
         binding.book = book
+        binding.root.setOnClickListener{
+            onClick(book)
+        }
+        binding.btnDelete.setOnClickListener {
+            onRemove(book.id)
+        }
     }
 }

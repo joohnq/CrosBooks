@@ -16,8 +16,6 @@ import com.joohnq.crosbooks.view.viewholders.ViewHolderNothing
 abstract class BaseCustomAdapter<T : Any, VHNothing : ViewHolder, VHLoading : ViewHolder, VHEmpty : ViewHolder, VHSuccess : ViewHolder, VHError : ViewHolder> :
     CustomAbstractAdapter<T, VHNothing, VHLoading, VHEmpty, VHSuccess, VHError>() {
 
-
-
     abstract override fun createSuccessViewHolder(
         inflater: LayoutInflater,
         parent: ViewGroup

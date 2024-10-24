@@ -1,5 +1,9 @@
 package com.joohnq.crosbooks.model.entities
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
+@Parcelize
 data class Book(
     val author: String,
     val category: Category,
@@ -9,4 +13,4 @@ data class Book(
     val summary: String,
     val title: String,
     val updatedAt: String
-)
+): Parcelable

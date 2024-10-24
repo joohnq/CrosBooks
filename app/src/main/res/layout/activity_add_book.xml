@@ -1,23 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/main"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/white">
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/topAppBarFrame"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:text="Add Book"
-
-        android:textSize="30sp"
-        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="@color/white">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/topAppBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="?attr/actionBarSize"
+            app:navigationIcon="@drawable/ic_back"
+            app:title="Add Book" />
+
+    </com.google.android.material.appbar.AppBarLayout>
 
     <FrameLayout
         android:id="@+id/bookImageFrame"
@@ -26,7 +32,7 @@
         android:layout_marginTop="30dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView">
+        app:layout_constraintTop_toBottomOf="@+id/topAppBarFrame">
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/bookImage"
@@ -35,11 +41,12 @@
             android:layout_gravity="center|top"
             android:padding="10dp" />
 
-        <ImageButton
+        <ImageView
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_gravity="bottom|end"
             android:background="@android:color/transparent"
+            android:contentDescription="@string/pick_a_image_from_gallery_to_book"
             android:src="@drawable/ic_edit" />
     </FrameLayout>
 
@@ -58,7 +65,7 @@
             android:id="@+id/textEditTextTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Title" />
+            android:hint="@string/title" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -76,10 +83,10 @@
             android:id="@+id/textEditTextSummary"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Summary"
+            android:gravity="top|start"
+            android:hint="@string/summary"
             android:inputType="textMultiLine"
-            android:minLines="3"
-            android:gravity="top|start"  />
+            android:minLines="3" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -96,7 +103,7 @@
             android:id="@+id/textEditTextAuthor"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Author" />
+            android:hint="@string/author" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <Spinner
@@ -111,14 +118,10 @@
 
     <Button
         android:id="@+id/btnAddBook"
+        style="@style/CustomButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="20dp"
-        android:layout_marginTop="30dp"
-        android:paddingVertical="10dp"
-        android:text="Add Book"
-        android:textSize="20sp"
-        android:textStyle="bold"
+        android:text="@string/add_book"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/categoriesSpinner" />

@@ -6,17 +6,16 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import com.google.android.material.snackbar.Snackbar
-import com.joohnq.crosbooks.common.exceptions.EmailException
+import com.joohnq.crosbooks.UiState.Companion.fold
 import com.joohnq.crosbooks.common.FieldValidation
-import com.joohnq.crosbooks.common.exceptions.NameException
+import com.joohnq.crosbooks.common.exceptions.CustomException
+import com.joohnq.crosbooks.common.exceptions.EmailException
 import com.joohnq.crosbooks.common.exceptions.PasswordConfirmException
 import com.joohnq.crosbooks.common.exceptions.PasswordException
-import com.joohnq.crosbooks.UiState.Companion.fold
-import com.joohnq.crosbooks.view.helper.clearAllErrors
 import com.joohnq.crosbooks.databinding.FragmentRegisterBinding
-import com.joohnq.crosbooks.view.helper.SnackBarHelper
+import com.joohnq.crosbooks.view.helper.clearAllErrors
 import com.joohnq.crosbooks.view.helper.onChange
+import com.joohnq.crosbooks.view.helper.showSnackBar
 import com.joohnq.crosbooks.viewmodel.AuthViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -24,27 +23,14 @@ class RegisterFragment : Fragment() {
     private var _binding: FragmentRegisterBinding? = null
     private val binding: FragmentRegisterBinding get() = _binding!!
     private val authViewModel: AuthViewModel by viewModel()
-    private val onLoading: () -> Unit = { binding.toggleIsLoading(true) }
-    private val onError: (String) -> Unit = {
-        binding.toggleIsLoading(false)
-        SnackBarHelper(requireView(), it)
-    }
 
-    private fun FragmentRegisterBinding.toggleIsLoading(state: Boolean) {
-        isLoadingProgressBar.visibility = if (state) View.VISIBLE else View.GONE
-    }
-
-    private fun FragmentRegisterBinding.clearAllErrors() {
+    private fun FragmentRegisterBinding.onRegister() {
         listOf(
             textInputLayoutName,
             textInputLayoutEmail,
             textInputLayoutPassword,
             textInputLayoutConfirmPassword
         ).clearAllErrors()
-    }
-
-    private fun FragmentRegisterBinding.onRegister() {
-        clearAllErrors()
         val name = textEditTextName.text.toString()
         val email = textEditTextEmail.text.toString()
         val password = textEditTextPassword.text.toString()
@@ -57,7 +43,7 @@ class RegisterFragment : Fragment() {
             FieldValidation.validatePasswordConfirm(password, confirmPassword)
 
             authViewModel.register(name, email, password, confirmPassword)
-        } catch (e: NameException) {
+        } catch (e: CustomException.NameCannotBeEmpty) {
             textInputLayoutName.error = e.message
         } catch (e: EmailException) {
             textInputLayoutEmail.error = e.message
@@ -77,17 +63,34 @@ class RegisterFragment : Fragment() {
         }
     }
 
-    private fun FragmentRegisterBinding.observers() {
+    private fun observers() {
         authViewModel.register.observe(viewLifecycleOwner) { state ->
             state.fold(
-                onLoading = onLoading,
-                onError = onError,
+                onLoading = { binding.isLoading = true },
+                onError = {
+                    binding.isLoading = false
+                    requireView().showSnackBar(it)
+                },
                 onSuccess = {
-                    SnackBarHelper(requireView(), "Successfully registered")
-                    toggleIsLoading(false)
+                    requireView().showSnackBar("Successfully registered")
+                    binding.isLoading = false
                 }
             )
         }
+    }
+
+    private fun FragmentRegisterBinding.initTestFields() {
+        textEditTextName.setText("João")
+        textEditTextEmail.setText("joao@gmail.com")
+        textEditTextPassword.setText("joao1234")
+        textEditTextConfirmPassword.setText("joao1234")
+    }
+
+    private fun FragmentRegisterBinding.whenInputValueChange() {
+        textEditTextName.onChange(textInputLayoutName)
+        textEditTextEmail.onChange(textInputLayoutEmail)
+        textEditTextPassword.onChange(textInputLayoutPassword)
+        textEditTextConfirmPassword.onChange(textInputLayoutConfirmPassword)
     }
 
     override fun onDestroy() {
@@ -105,19 +108,13 @@ class RegisterFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.bindButtons()
-        binding.textEditTextName.setText("João")
-        binding.textEditTextEmail.setText("joao@gmail.com")
-        binding.textEditTextPassword.setText("joao1234")
-        binding.textEditTextConfirmPassword.setText("joao1234")
-        binding.observers()
-        binding.whenInputValueChange()
+        binding.apply {
+            bindButtons()
+            initTestFields()
+            whenInputValueChange()
+            isLoading = false
+        }
+        observers()
     }
 
-    private fun FragmentRegisterBinding.whenInputValueChange() {
-        textEditTextName.onChange(textInputLayoutName)
-        textEditTextEmail.onChange(textInputLayoutEmail)
-        textEditTextPassword.onChange(textInputLayoutPassword)
-        textEditTextConfirmPassword.onChange(textInputLayoutConfirmPassword)
-    }
 }

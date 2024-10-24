@@ -1,11 +1,10 @@
 package com.joohnq.crosbooks.di
 
-import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
 import com.joohnq.crosbooks.constants.ApiConstants
 import com.joohnq.crosbooks.model.local.UserPreferencesRepository
 import com.joohnq.crosbooks.model.local.UserPreferencesRepositoryImpl
 import com.joohnq.crosbooks.model.local.getUserPreferencesDatastore
+import com.joohnq.crosbooks.model.network.SwaggerDataSource
 import com.joohnq.crosbooks.model.network.auth.AuthInterceptor
 import com.joohnq.crosbooks.model.network.auth.AuthRepository
 import com.joohnq.crosbooks.model.network.auth.AuthRepositoryImpl
@@ -16,7 +15,7 @@ import com.joohnq.crosbooks.model.network.books.BooksService
 import com.joohnq.crosbooks.model.network.categories.CategoriesRepository
 import com.joohnq.crosbooks.model.network.categories.CategoriesRepositoryImpl
 import com.joohnq.crosbooks.model.network.categories.CategoriesService
-import com.joohnq.crosbooks.model.network.SwaggerDataSource
+import com.joohnq.crosbooks.view.permission.PermissionManager
 import com.joohnq.crosbooks.viewmodel.AuthViewModel
 import com.joohnq.crosbooks.viewmodel.BooksViewModel
 import com.joohnq.crosbooks.viewmodel.CategoriesViewModel
@@ -34,7 +33,8 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 val appModule = module {
     singleOf<CoroutineDispatcher>(Dispatchers::IO)
-    single<DataStore<Preferences>> { getUserPreferencesDatastore(get()) }
+    singleOf(::getUserPreferencesDatastore)
+    singleOf(::PermissionManager)
 }
 
 val viewModelModule = module {
@@ -45,10 +45,10 @@ val viewModelModule = module {
 }
 
 val repositoryModule = module {
-    single { UserPreferencesRepositoryImpl(get(), get()) } bind UserPreferencesRepository::class
-    single { AuthRepositoryImpl(get(), get()) } bind AuthRepository::class
-    single { BooksRepositoryImpl(get(), get()) } bind BooksRepository::class
-    single { CategoriesRepositoryImpl(get(), get()) } bind CategoriesRepository::class
+    singleOf(::UserPreferencesRepositoryImpl) bind UserPreferencesRepository::class
+    singleOf(::AuthRepositoryImpl) bind AuthRepository::class
+    singleOf(::BooksRepositoryImpl) bind BooksRepository::class
+    singleOf(::CategoriesRepositoryImpl) bind CategoriesRepository::class
 }
 
 val networkModule = module {
@@ -57,9 +57,7 @@ val networkModule = module {
             level = HttpLoggingInterceptor.Level.BODY
         }
     }
-    single<AuthInterceptor> {
-        AuthInterceptor(get<UserPreferencesRepository>())
-    }
+    singleOf(::AuthInterceptor)
     single<OkHttpClient> {
         OkHttpClient.Builder()
             .addInterceptor(get<HttpLoggingInterceptor>())
@@ -74,7 +72,7 @@ val networkModule = module {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
     }
-    single<SwaggerDataSource> { SwaggerDataSource(get()) }
+    singleOf(::SwaggerDataSource)
 }
 
 val servicesModule = module {
