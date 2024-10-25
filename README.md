@@ -24,7 +24,7 @@ Logo apos o Login o token, que vêm da API, é armazenado localmente com DataSto
 - Registro (Registrar um usuário com nome, email e senha)
 - Home (Com Paginação) (Listagem dos livros do usuário e com a listagem das categorias disponíveis)
 - Detalhe do Livro (Exibição mais detalhada do livro)
-- Adicionar Livro (Responsável adicionar um livro tendo como etapas: 1. Pegar a imagem do livro e enviar para o servidor. 2. Enviar o livro já com a url da imagem)
+- Adicionar Livro (Responsável por adicionar um livro. Etapas: 1. Pegar a imagem do livro e enviar para o servidor. 2. Enviar o livro já com a url da imagem)
 - Search (Com Paginação) (Tela de pesquisa para filtrar pelo nome do livro)
 - Profile (Tela para logout)
   
