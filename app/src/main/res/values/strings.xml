@@ -23,13 +23,11 @@
     <string name="search">Search</string>
     <string name="profile">Profile</string>
     <string name="sign_out">Sign Out</string>
-    <string name="search_here">Search Here...</string>
+    <string name="search_here">Search Here…</string>
     <string name="delete_book">Delete Book</string>
     <string name="something_went_wrong">Something Went Wrong</string>
     <string name="empty">Empty</string>
     <string name="flaticon_placeholder_reference"><a href="https://www.flaticon.com/free-icons/edit" title="edit icons">Edit icons created by Pixel perfect - Flaticon</a></string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="logout">Logout</string>
     <string name="books_size">Books: %1$d</string>
 </resources>

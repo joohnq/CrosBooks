@@ -14,7 +14,7 @@ import java.io.FileOutputStream
 import java.io.InputStream
 
 object NetworkHelper {
-    fun extractErrorFromJson(jsonString: String?): String? {
+    private fun extractErrorFromJson(jsonString: String?): String? {
         return try {
             if (jsonString == null) return null
 

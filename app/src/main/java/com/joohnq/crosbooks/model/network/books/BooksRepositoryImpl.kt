@@ -2,14 +2,11 @@ package com.joohnq.crosbooks.model.network.books
 
 import android.content.Context
 import android.net.Uri
-import android.util.Log
-import com.joohnq.crosbooks.constants.AppConstants
 import com.joohnq.crosbooks.model.entities.Book
 import com.joohnq.crosbooks.model.entities.BookImageResponse
 import com.joohnq.crosbooks.model.entities.BookPost
 import com.joohnq.crosbooks.model.entities.BooksResponse
 import com.joohnq.crosbooks.model.network.NetworkHelper
-import com.joohnq.crosbooks.model.network.NetworkHelper.extractErrorFromJson
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -27,10 +24,7 @@ class BooksRepositoryImpl(
         return flow {
             try {
                 val res = booksService.getBooks(page)
-                val resBody = extractErrorFromJson(res.errorBody()?.string())
-                if (resBody != null) throw Exception(resBody)
-                if (!res.isSuccessful) throw Exception(res.message().toString())
-                val books = res.body() ?: throw Exception("Something went wrong")
+                val books = NetworkHelper.handleNetworkErrors(res)
                 emit(books)
             } catch (e: Exception) {
                 throw e
@@ -44,7 +38,7 @@ class BooksRepositoryImpl(
     ): Flow<BooksResponse> {
         return flow {
             try {
-                val res = booksService.getBooks(search,page)
+                val res = booksService.getBooks(search, page)
                 val books = NetworkHelper.handleNetworkErrors(res)
                 emit(books)
             } catch (e: Exception) {
