@@ -29,25 +29,12 @@ class BooksViewModel(
         MutableLiveData(1)
     private val currentPage: LiveData<Int> get() = _currentPage
 
+    private val _booksQtd: MutableLiveData<Int> =
+        MutableLiveData(0)
+    val booksQtd: LiveData<Int> get() = _booksQtd
+
     private val _books: MutableLiveData<UiState<MutableList<Book>>> = MutableLiveData(UiState.Idle)
     val books: LiveData<UiState<MutableList<Book>>> get() = _books
-
-//    fun getBooks() = viewModelScope.launch {
-////        if (currentPage.value == maxPageHome.value) return@launch
-//        val oldBooks = books.value.value()
-//        _books.value = UiState.Loading
-//        val page = currentPage.value?.plus(1) ?: 1
-//        viewModelScope.launch {
-//            booksRepositoryImpl.getBooks(page).catch {
-//                _books.value = UiState.Error(it.message.toString())
-//            }.collect { res ->
-//                oldBooks.addAll(res.data)
-//                _books.value = UiState.Success(oldBooks)
-//                _maxPageHome.value = res.totalPages
-//                _currentPage.value = res.page
-//            }
-//        }
-//    }
 
     fun getBooksPagination() = viewModelScope.launch {
         val current = currentPage.value ?: 1
@@ -79,6 +66,7 @@ class BooksViewModel(
             _books.value = UiState.Success(res.data.toMutableList())
             val totalPages = res.totalPages
             val page = res.page
+            _booksQtd.value = res.totalItems
             _maxPageHome.value = totalPages
             _currentPage.value = page
         }

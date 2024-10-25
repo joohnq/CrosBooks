@@ -26,4 +26,5 @@ class UserPreferencesViewModel(
     }
 
     suspend fun setToken(token: String): Boolean = userPreferencesRepository.setToken(token)
+    suspend fun resetToken(): Boolean = userPreferencesRepository.resetToken()
 }

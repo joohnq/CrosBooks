@@ -15,6 +15,6 @@ sealed class CustomException(message: String) : Exception(message) {
         CustomException(message)
     class BookNotAdded(message: String = "Something went wrong when adding the book") :
         CustomException(message)
-    class NoMorePages(message: String = "No more pages") :
+    class LogoutFailed(message: String = "Logout failed") :
         CustomException(message)
 }

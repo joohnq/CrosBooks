@@ -26,16 +26,20 @@
             android:theme="@style/Theme.CrosBooks" />
         <activity
             android:name=".view.activities.HomeActivity"
-            android:exported="true" />
+            android:exported="true"
+            android:theme="@style/Theme.CrosBooks"/>
         <activity
             android:name=".view.activities.AuthActivity"
-            android:exported="true" />
+            android:exported="true"
+            android:theme="@style/Theme.CrosBooks"/>
         <activity
             android:name=".view.activities.BookDetailActivity"
-            android:exported="true" />
+            android:exported="true"
+            android:theme="@style/Theme.CrosBooks"/>
         <activity
             android:name=".view.activities.LoadingActivity"
-            android:exported="true">
+            android:exported="true"
+            android:theme="@style/Theme.CrosBooks">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

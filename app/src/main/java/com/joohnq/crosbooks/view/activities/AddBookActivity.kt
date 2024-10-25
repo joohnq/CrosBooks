@@ -11,8 +11,6 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
-import com.joohnq.crosbooks.view.state.UiState.Companion.fold
-import com.joohnq.crosbooks.view.state.UiState.Companion.onSuccess
 import com.joohnq.crosbooks.common.FieldValidation
 import com.joohnq.crosbooks.common.exceptions.CustomException
 import com.joohnq.crosbooks.databinding.ActivityAddBookBinding
@@ -23,13 +21,16 @@ import com.joohnq.crosbooks.view.contracts.GalleryImagePicker
 import com.joohnq.crosbooks.view.helper.clearAllErrors
 import com.joohnq.crosbooks.view.helper.onChange
 import com.joohnq.crosbooks.view.helper.showSnackBar
+import com.joohnq.crosbooks.view.hideKeyboard
 import com.joohnq.crosbooks.view.permission.PermissionManager
 import com.joohnq.crosbooks.view.permission.PermissionManager.Companion.GALLERY_PERMISSION_CODE
 import com.joohnq.crosbooks.view.setOnApplyWindowInsetsListener
+import com.joohnq.crosbooks.view.state.UiState.Companion.onSuccess
 import com.joohnq.crosbooks.viewmodel.BooksViewModel
 import com.joohnq.crosbooks.viewmodel.CategoriesViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -54,7 +55,9 @@ class AddBookActivity : AppCompatActivity() {
         }
 
     private fun ActivityAddBookBinding.toggleIsLoading(state: Boolean) {
-        isLoadingProgressBar.visibility = if (state) View.VISIBLE else View.GONE
+        runBlocking {
+            isLoadingProgressBar.visibility = if (state) View.VISIBLE else View.GONE
+        }
     }
 
     override fun onRequestPermissionsResult(
@@ -154,10 +157,14 @@ class AddBookActivity : AppCompatActivity() {
                 CustomException.AuthorCannotBeEmpty()
             )
 
+            hideKeyboard()
+            toggleIsLoading(true)
+
             lifecycleScope.launch(ioDispatcher) {
                 val url = booksViewModel.sendBookImage(bookImageUri!!)
 
                 binding.root.showSnackBar("Successfully added the book image")
+                toggleIsLoading(false)
 
                 if (selectedCategoryId == null) throw CustomException.CategoryNotSelected()
 
@@ -169,18 +176,22 @@ class AddBookActivity : AppCompatActivity() {
                     categoryId = selectedCategoryId!!
                 )
 
-                 booksViewModel.addBook(bookPost!!)
+                booksViewModel.addBook(bookPost!!)
 
                 binding.root.showSnackBar("Successfully added the book")
             }
         } catch (e: CustomException.TitleCannotBeEmpty) {
             textInputLayoutTitle.error = e.message
+            toggleIsLoading(false)
         } catch (e: CustomException.SummaryCannotBeEmpty) {
             textInputLayoutSummary.error = e.message
+            toggleIsLoading(false)
         } catch (e: CustomException.AuthorCannotBeEmpty) {
             textInputLayoutAuthor.error = e.message
+            toggleIsLoading(false)
         } catch (e: Exception) {
             binding.root.showSnackBar(e.message.toString())
+            toggleIsLoading(false)
         }
     }
 

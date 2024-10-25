@@ -66,6 +66,10 @@ class HomeFragment : Fragment() {
             categoryAdapter.setState(state.toRecyclerViewState { root.showSnackBar(it) })
         }
 
+        booksViewModel.booksQtd.observe(this@HomeFragment) { qtd ->
+            booksSize.text = getString(R.string.books_size, qtd)
+        }
+
         booksViewModel.books.observe(this@HomeFragment) { state ->
             state.onSuccess { isLoadingMore = false }
             if (state is UiState.Loading && isLoadingMore) return@observe

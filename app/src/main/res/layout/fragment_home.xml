@@ -22,7 +22,19 @@
             android:minHeight="?attr/actionBarSize"
             app:title="@string/home" />
 
+
     </com.google.android.material.appbar.AppBarLayout>
+
+    <TextView
+        android:id="@+id/booksSize"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/books_size"
+        android:layout_marginEnd="20dp"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@+id/topAppBarFrame"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
     <androidx.recyclerview.widget.RecyclerView

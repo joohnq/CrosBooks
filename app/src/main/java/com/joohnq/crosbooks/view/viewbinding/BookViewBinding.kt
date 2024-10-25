@@ -35,4 +35,10 @@ object BookViewBinding {
     fun setCategory(textView: TextView, category: String) {
         textView.text = category
     }
+
+    @BindingAdapter("summary")
+    @JvmStatic
+    fun setSummary(textView: TextView, summary: String) {
+        textView.text = summary
+    }
 }

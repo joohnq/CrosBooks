@@ -19,6 +19,7 @@ import com.joohnq.crosbooks.view.helper.initHorizontal
 import com.joohnq.crosbooks.view.helper.initVerticalWithScrollEvent
 import com.joohnq.crosbooks.view.helper.onChange
 import com.joohnq.crosbooks.view.helper.showSnackBar
+import com.joohnq.crosbooks.view.hideKeyboard
 import com.joohnq.crosbooks.viewmodel.AuthViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -44,6 +45,8 @@ class RegisterFragment : Fragment() {
             FieldValidation.validateEmail(email)
             FieldValidation.validatePassword(password)
             FieldValidation.validatePasswordConfirm(password, confirmPassword)
+
+            requireActivity().hideKeyboard()
 
             authViewModel.register(name, email, password, confirmPassword)
         } catch (e: CustomException.NameCannotBeEmpty) {

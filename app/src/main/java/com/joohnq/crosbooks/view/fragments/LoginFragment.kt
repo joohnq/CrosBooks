@@ -15,6 +15,7 @@ import com.joohnq.crosbooks.databinding.FragmentLoginBinding
 import com.joohnq.crosbooks.view.helper.clearAllErrors
 import com.joohnq.crosbooks.view.helper.onChange
 import com.joohnq.crosbooks.view.helper.showSnackBar
+import com.joohnq.crosbooks.view.hideKeyboard
 import com.joohnq.crosbooks.view.navigation.navigateToHomeActivity
 import com.joohnq.crosbooks.viewmodel.AuthViewModel
 import com.joohnq.crosbooks.viewmodel.UserPreferencesViewModel
@@ -47,6 +48,8 @@ class LoginFragment : Fragment() {
         try {
             FieldValidation.validateEmail(email)
             FieldValidation.validatePassword(password)
+
+            requireActivity().hideKeyboard()
 
             lifecycleScope.launch {
                 try {

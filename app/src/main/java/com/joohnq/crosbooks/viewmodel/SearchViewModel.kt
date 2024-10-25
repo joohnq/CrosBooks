@@ -27,14 +27,6 @@ class SearchViewModel(
         MutableLiveData(UiState.Idle)
     val searchBooks: LiveData<UiState<MutableList<Book>>> get() = _searchBooks
 
-//    fun getSearchBooks(search: String) = viewModelScope.launch {
-//        if (currentPage.value == maxPageHome.value) return@launch
-//        val oldBooks = searchBooks.value.value()
-//        _searchBooks.value = UiState.Loading
-//        val page = currentPage.value?.plus(1) ?: 1
-//        executeGetSearchBooksFlow(search, page, oldBooks)
-//    }
-
     fun getBooksPagination(search: String) = viewModelScope.launch {
         val current = currentPage.value ?: 1
         val maxPage = maxPageHome.value ?: 1
@@ -70,31 +62,12 @@ class SearchViewModel(
         }
     }
 
-    private fun executeGetSearchBooksFlow(
-        search: String,
-        page: Int,
-        initialList: MutableList<Book>
-    ) = viewModelScope.launch {
-        booksRepositoryImpl.getBooks(search, page).catch {
-            _searchBooks.value = UiState.Error(it.message.toString())
-        }.collect { res ->
-            initialList.addAll(res.data)
-            _searchBooks.value = UiState.Success(initialList)
-            _maxPageHome.value = res.totalPages
-            _currentPage.value = res.page
-        }
-    }
-
     fun resetPageValues() {
-        _currentPage.value = 0
+        _currentPage.value = 1
         _maxPageHome.value = 1
     }
 
-    fun removeBookFromList(id: Int) = viewModelScope.launch {
-        _searchBooks.value?.onSuccess { data ->
-            _searchBooks.value = UiState.Loading
-            _searchBooks.value =
-                UiState.Success(data.filter { book -> book.id != id }.toMutableList())
-        }
+    fun setSearchBooksIdle(){
+        _searchBooks.value = UiState.Idle
     }
 }

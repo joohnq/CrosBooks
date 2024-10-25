@@ -30,4 +30,6 @@
     <string name="flaticon_placeholder_reference"><a href="https://www.flaticon.com/free-icons/edit" title="edit icons">Edit icons created by Pixel perfect - Flaticon</a></string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="logout">Logout</string>
+    <string name="books_size">Books: %1$d</string>
 </resources>

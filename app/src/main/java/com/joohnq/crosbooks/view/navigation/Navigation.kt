@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.joohnq.crosbooks.model.entities.Book
 import com.joohnq.crosbooks.view.activities.AddBookActivity
+import com.joohnq.crosbooks.view.activities.AuthActivity
 import com.joohnq.crosbooks.view.activities.BookDetailActivity
 import com.joohnq.crosbooks.view.activities.HomeActivity
 
@@ -42,6 +43,12 @@ fun AppCompatActivity.navigateToActivity(
 
 fun Fragment.navigateToAddBookActivity() {
     Intent(this.context, AddBookActivity::class.java).also {
+        startActivity(it)
+    }
+}
+
+fun Fragment.navigateToAuthActivity() {
+    Intent(this.context, AuthActivity::class.java).also {
         startActivity(it)
     }
 }

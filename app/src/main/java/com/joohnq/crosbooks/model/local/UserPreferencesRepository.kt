@@ -14,6 +14,7 @@ val TOKEN_KEY = stringPreferencesKey("token")
 interface UserPreferencesRepository {
     fun getToken(): Flow<String?>
     suspend fun setToken(token: String): Boolean
+    suspend fun resetToken(): Boolean
 }
 
 class UserPreferencesRepositoryImpl(
@@ -27,6 +28,15 @@ class UserPreferencesRepositoryImpl(
     override suspend fun setToken(token: String): Boolean {
         try {
             userPreferencesDatastore.edit { userPreferences -> userPreferences[TOKEN_KEY] = token }
+            return true
+        } catch (e: Exception) {
+            return false
+        }
+    }
+
+    override suspend fun resetToken(): Boolean {
+        try {
+            userPreferencesDatastore.edit { userPreferences -> userPreferences.remove(TOKEN_KEY) }
             return true
         } catch (e: Exception) {
             return false

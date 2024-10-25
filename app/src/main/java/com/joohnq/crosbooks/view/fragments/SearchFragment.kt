@@ -75,6 +75,10 @@ class SearchFragment : Fragment() {
 
     private fun FragmentSearchBinding.bindButtons() {
         textInputLayoutSearch.setStartIconOnClickListener { getBooksByFilter() }
+        textInputLayoutSearch.setEndIconOnClickListener {
+            textEditTextSearch.setText("")
+            searchViewModel.setSearchBooksIdle()
+        }
     }
 
     private fun FragmentSearchBinding.initRvs() {
