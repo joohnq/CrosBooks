@@ -3,4 +3,9 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="imageOverlay">#F6DFFF</color>
+    <color name="selectedBackground">#F6DFFF</color>
+    <color name="background">#FFF</color>
+    <color name="background_secondary">#F7F4F2</color>
+    <color name="primary">#901533</color>
+    <color name="secondary">#969696</color>
 </resources>

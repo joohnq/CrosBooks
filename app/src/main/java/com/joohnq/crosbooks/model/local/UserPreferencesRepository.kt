@@ -32,5 +32,4 @@ class UserPreferencesRepositoryImpl(
             return false
         }
     }
-
 }

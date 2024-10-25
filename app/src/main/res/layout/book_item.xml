@@ -16,12 +16,13 @@
         android:layout_height="wrap_content"
         android:paddingHorizontal="20dp"
         android:paddingVertical="20dp"
-        android:background="@color/white">
+        android:background="@color/background">
 
         <ImageView
             android:id="@+id/image"
             android:layout_width="70dp"
             android:layout_height="wrap_content"
+            android:contentDescription="@string/book_image"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             bind:image="@{book.imageUrl}" />
@@ -84,6 +85,7 @@
             android:id="@+id/btnDelete"
             android:layout_width="50dp"
             android:layout_height="50dp"
+            android:contentDescription="@string/delete_book"
             android:src="@drawable/ic_delete"
             android:backgroundTint="@android:color/white"
             app:layout_constraintBottom_toBottomOf="@+id/textView4"

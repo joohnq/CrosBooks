@@ -5,11 +5,8 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <import type="android.view.View" />
 
-        <variable
-            name="isLoading"
-            type="Boolean" />
+        <import type="android.view.View" />
 
         <variable
             name="isError"
@@ -24,139 +21,119 @@
         android:id="@+id/swipeRefreshLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/white">
+        android:background="@color/background">
 
-        <androidx.core.widget.NestedScrollView
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/main"
+            <androidx.core.widget.NestedScrollView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-                <com.google.android.material.appbar.AppBarLayout
-                    android:id="@+id/topAppBarFrame"
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/main"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    android:background="@color/white">
+                    android:layout_height="match_parent">
 
-                    <com.google.android.material.appbar.MaterialToolbar
-                        android:id="@+id/topAppBar"
+                    <com.google.android.material.appbar.AppBarLayout
+                        android:id="@+id/topAppBarFrame"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:minHeight="?attr/actionBarSize"
-                        app:navigationIcon="@drawable/ic_back"
-                        app:title="@string/detail" />
-
-                </com.google.android.material.appbar.AppBarLayout>
-
-                <ImageView
-                    android:id="@+id/bookImage"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:contentDescription="@string/book_image"
-                    android:maxHeight="700dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/topAppBarFrame"
-                    bind:image="@{book.imageUrl}" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:orientation="vertical"
-                    android:paddingHorizontal="20dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/bookImage">
-
-                    <TextView
-                        android:id="@+id/title"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@{book.title}"
-                        android:textSize="24sp"
-                        android:textStyle="bold"
+                        android:background="@color/background"
+                        app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="@+id/bookImage"
-                        tools:text="@string/title" />
+                        app:layout_constraintTop_toTopOf="parent">
 
-                    <TextView
-                        android:id="@+id/textView2"
-                        android:layout_width="wrap_content"
+                        <com.google.android.material.appbar.MaterialToolbar
+                            android:id="@+id/topAppBar"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:minHeight="?attr/actionBarSize"
+                            app:navigationIcon="@drawable/ic_back"
+                            app:title="@string/detail" />
+
+                    </com.google.android.material.appbar.AppBarLayout>
+
+                    <ImageView
+                        android:id="@+id/bookImage"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textSize="16sp"
-                        app:layout_constraintStart_toEndOf="@+id/image"
-                        app:layout_constraintTop_toBottomOf="@id/title"
-                        bind:author="@{book.author}"
-                        tools:text="@string/author" />
+                        android:contentDescription="@string/book_image"
+                        android:maxHeight="700dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/topAppBarFrame"
+                        bind:image="@{book.imageUrl}" />
 
-                    <TextView
-                        android:id="@+id/textView3"
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textSize="16sp"
-                        app:layout_constraintBottom_toBottomOf="@+id/textView2"
-                        app:layout_constraintStart_toEndOf="@+id/divider"
-                        app:layout_constraintTop_toBottomOf="@+id/title"
-                        bind:createdAt="@{book.createdAt}"
-                        tools:text="@string/created_at" />
+                        android:layout_marginTop="20dp"
+                        android:orientation="vertical"
+                        android:paddingHorizontal="20dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/bookImage">
+
+                        <TextView
+                            android:id="@+id/title"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@{book.title}"
+                            android:textSize="24sp"
+                            android:textStyle="bold"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="@+id/bookImage"
+                            tools:text="@string/title" />
+
+                        <TextView
+                            android:id="@+id/textView2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="16sp"
+                            app:layout_constraintStart_toEndOf="@+id/image"
+                            app:layout_constraintTop_toBottomOf="@id/title"
+                            bind:author="@{book.author}"
+                            tools:text="@string/author_show" />
+
+                        <TextView
+                            android:id="@+id/textView3"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="16sp"
+                            app:layout_constraintBottom_toBottomOf="@+id/textView2"
+                            app:layout_constraintStart_toEndOf="@+id/divider"
+                            app:layout_constraintTop_toBottomOf="@+id/title"
+                            bind:createdAt="@{book.createdAt}"
+                            tools:text="@string/created_at" />
 
 
-                    <TextView
-                        android:id="@+id/textView4"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textSize="16sp"
-                        app:layout_constraintStart_toStartOf="@+id/textView2"
-                        app:layout_constraintTop_toBottomOf="@+id/textView2"
-                        bind:category="@{book.category.title}"
-                        tools:text="@string/category" />
-                </LinearLayout>
+                        <TextView
+                            android:id="@+id/textView4"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="16sp"
+                            app:layout_constraintStart_toStartOf="@+id/textView2"
+                            app:layout_constraintTop_toBottomOf="@+id/textView2"
+                            bind:category="@{book.category.title}"
+                            tools:text="@string/category" />
+                    </LinearLayout>
 
 
-                <LinearLayout
-                    android:id="@+id/linearLayoutLoading"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center"
-                    android:visibility="@{isLoading ? View.VISIBLE : View.GONE}"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    tools:visibility="gone">
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.core.widget.NestedScrollView>
 
-                    <ProgressBar
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:layout_gravity="center" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/linearLayoutError"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center"
-                    android:visibility="@{isError ? View.VISIBLE : View.GONE}"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    tools:visibility="gone">
-
-                    <ProgressBar
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:layout_gravity="center" />
-                </LinearLayout>
-            </androidx.constraintlayout.widget.ConstraintLayout>
-        </androidx.core.widget.NestedScrollView>
+            <include
+                layout="@layout/default_view_error"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:isError="@{isError}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 </layout>

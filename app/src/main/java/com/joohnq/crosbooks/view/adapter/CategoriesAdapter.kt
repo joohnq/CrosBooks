@@ -4,22 +4,22 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import com.joohnq.core.adapter.BaseCustomAdapter
-import com.joohnq.crosbooks.view.state.RecyclerViewState
-import com.joohnq.crosbooks.view.viewholders.ViewHolderError
+import com.joohnq.crosbooks.databinding.BookItemBinding
 import com.joohnq.crosbooks.databinding.CategoryItemBinding
+import com.joohnq.crosbooks.di.repositoryModule
+import com.joohnq.crosbooks.model.entities.Book
 import com.joohnq.crosbooks.model.entities.Category
-import com.joohnq.crosbooks.view.viewholders.CategoryItemViewHolder
+import com.joohnq.crosbooks.view.state.RecyclerViewState
+import com.joohnq.crosbooks.view.viewholders.BooksItemViewHolder
+import com.joohnq.crosbooks.view.viewholders.CategoriesItemViewHolder
 import com.joohnq.crosbooks.view.viewholders.ViewHolderEmpty
+import com.joohnq.crosbooks.view.viewholders.ViewHolderError
 import com.joohnq.crosbooks.view.viewholders.ViewHolderLoading
 import com.joohnq.crosbooks.view.viewholders.ViewHolderNothing
 
 class CategoriesAdapter :
-    BaseCustomAdapter<Category, ViewHolderNothing, ViewHolderLoading, ViewHolderEmpty, CategoryItemViewHolder, ViewHolderError>() {
-
-    override fun getJobDiffCallback(
-        oldList: List<Category>,
-        newList: List<Category>
-    ): DiffUtil.Callback {
+    BaseCustomAdapter<Category, ViewHolderNothing, ViewHolderLoading, ViewHolderEmpty, CategoriesItemViewHolder, ViewHolderError>() {
+    override fun getJobDiffCallback(oldList: List<Category>, newList: List<Category>): DiffUtil.Callback {
         return object : DiffUtil.Callback() {
             override fun getOldListSize() = oldList.size
             override fun getNewListSize() = newList.size
@@ -37,11 +37,11 @@ class CategoriesAdapter :
     override fun createSuccessViewHolder(
         inflater: LayoutInflater,
         parent: ViewGroup
-    ): CategoryItemViewHolder = CategoryItemViewHolder(
+    ): CategoriesItemViewHolder = CategoriesItemViewHolder(
         CategoryItemBinding.inflate(inflater, parent, false)
     )
 
-    override fun bindSuccessViewHolder(holder: CategoryItemViewHolder, position: Int) {
+    override fun bindSuccessViewHolder(holder: CategoriesItemViewHolder, position: Int) {
         val item = (uiState as RecyclerViewState.Success<Category>).data[position]
         holder.bind(item)
     }

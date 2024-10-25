@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">CrosBooks</string>
-    <string name="author">Author: %1$s</string>
+    <string name="author">Author</string>
+    <string name="author_show">Author: %1$s</string>
     <string name="detail">Detail</string>
     <string name="title">Title</string>
     <string name="created_at">CreatedAT</string>
@@ -23,4 +24,10 @@
     <string name="profile">Profile</string>
     <string name="sign_out">Sign Out</string>
     <string name="search_here">Search Here...</string>
+    <string name="delete_book">Delete Book</string>
+    <string name="something_went_wrong">Something Went Wrong</string>
+    <string name="empty">Empty</string>
+    <string name="flaticon_placeholder_reference"><a href="https://www.flaticon.com/free-icons/edit" title="edit icons">Edit icons created by Pixel perfect - Flaticon</a></string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

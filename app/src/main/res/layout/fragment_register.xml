@@ -4,7 +4,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+
         <import type="android.view.View" />
+
         <variable
             name="isLoading"
             type="Boolean" />
@@ -14,7 +16,7 @@
         android:id="@+id/main"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/white">
+        android:background="@color/background">
 
         <TextView
             android:id="@+id/textView"
@@ -30,6 +32,7 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/textInputLayoutName"
+            style="@style/CustomTextInputLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="20dp"
@@ -40,6 +43,7 @@
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/textEditTextName"
+                style="@style/CustomInputEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/name" />
@@ -47,6 +51,7 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/textInputLayoutEmail"
+            style="@style/CustomTextInputLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="20dp"
@@ -57,6 +62,7 @@
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/textEditTextEmail"
+                style="@style/CustomInputEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/email" />
@@ -64,17 +70,19 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/textInputLayoutPassword"
+            style="@style/CustomTextInputLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="20dp"
             android:layout_marginTop="8dp"
-            app:layout_constraintEnd_toEndOf="parent"
             app:endIconMode="password_toggle"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/textInputLayoutEmail">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/textEditTextPassword"
+                style="@style/CustomInputEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/password" />
@@ -82,33 +90,37 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/textInputLayoutConfirmPassword"
+            style="@style/CustomTextInputLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="20dp"
             android:layout_marginTop="8dp"
-            app:layout_constraintEnd_toEndOf="parent"
             app:endIconMode="password_toggle"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/textInputLayoutPassword">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/textEditTextConfirmPassword"
+                style="@style/CustomInputEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/confirm_password" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnRegister"
             style="@style/CustomButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/register"
+            android:textColor="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/textInputLayoutConfirmPassword" />
 
         <ProgressBar
+            android:progressTint="@color/primary"
             android:id="@+id/isLoadingProgressBar"
             android:layout_width="50dp"
             android:layout_height="50dp"

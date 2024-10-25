@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.joohnq.crosbooks.UiState
+import com.joohnq.crosbooks.view.state.UiState
 import com.joohnq.crosbooks.model.entities.Category
 import com.joohnq.crosbooks.model.network.categories.CategoriesRepositoryImpl
 import kotlinx.coroutines.flow.catch
@@ -13,10 +13,6 @@ import kotlinx.coroutines.launch
 class CategoriesViewModel(
     private val categoriesRepositoryImpl: CategoriesRepositoryImpl
 ) : ViewModel() {
-//    private val _booksResponse: MutableLiveData<MutableList<UiState<Book>>> =
-//        MutableLiveData(mutableListOf())
-//    val booksResponse: LiveData<MutableList<UiState<Book>>>> get() = _booksResponse
-
     private val _categories: MutableLiveData<UiState<List<Category>>> =
         MutableLiveData(UiState.Idle)
     val categories: LiveData<UiState<List<Category>>> get() = _categories

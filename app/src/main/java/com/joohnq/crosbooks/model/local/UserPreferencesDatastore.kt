@@ -12,7 +12,3 @@ val Context.preferencesDataStore by preferencesDataStore(name = "user_preference
 fun getUserPreferencesDatastore(context: Context): DataStore<Preferences> {
     return context.preferencesDataStore
 }
-
-fun DataStore<Preferences>.getToken(): Flow<String?> {
-    return data.map { userPreferences -> userPreferences[TOKEN_KEY] }
-}

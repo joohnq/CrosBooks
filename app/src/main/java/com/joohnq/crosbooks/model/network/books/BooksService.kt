@@ -20,7 +20,16 @@ import retrofit2.http.Query
 interface BooksService {
     @GET("/books")
     @Headers("Requires-Auth: true")
-    suspend fun getBooks(): Response<BooksResponse>
+    suspend fun getBooks(
+        @Query("page") page: Int
+    ): Response<BooksResponse>
+
+    @GET("/books")
+    @Headers("Requires-Auth: true")
+    suspend fun getBooks(
+        @Query("search") search: String,
+        @Query("page") page: Int
+    ): Response<BooksResponse>
 
     @POST("/upload-file")
     @Multipart

@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import com.joohnq.crosbooks.UiState.Companion.fold
+import com.joohnq.crosbooks.view.state.UiState.Companion.fold
 import com.joohnq.crosbooks.common.FieldValidation
 import com.joohnq.crosbooks.common.exceptions.EmailException
 import com.joohnq.crosbooks.common.exceptions.PasswordException

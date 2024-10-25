@@ -4,16 +4,16 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white">
+    android:background="@color/background">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/topAppBarFrame"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/background"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:background="@color/white">
+        app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/topAppBar"
@@ -25,44 +25,33 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <FrameLayout
-        android:id="@+id/bookImageFrame"
-        android:layout_width="130dp"
-        android:layout_height="130dp"
-        android:layout_marginTop="30dp"
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/bookImage"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_gravity="center|top"
+        android:contentDescription="@string/flaticon_placeholder_reference"
+        android:padding="10dp"
+        android:src="@drawable/edit_image_placeholder"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/topAppBarFrame">
-
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/bookImage"
-            android:layout_width="120dp"
-            android:layout_height="120dp"
-            android:layout_gravity="center|top"
-            android:padding="10dp" />
-
-        <ImageView
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_gravity="bottom|end"
-            android:background="@android:color/transparent"
-            android:contentDescription="@string/pick_a_image_from_gallery_to_book"
-            android:src="@drawable/ic_edit" />
-    </FrameLayout>
+        app:layout_constraintTop_toBottomOf="@+id/topAppBarFrame" />
 
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textInputLayoutTitle"
+        style="@style/CustomTextInputLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="20dp"
         android:layout_marginTop="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/bookImageFrame">
+        app:layout_constraintTop_toBottomOf="@id/bookImage">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/textEditTextTitle"
+            style="@style/CustomInputEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/title" />
@@ -70,7 +59,7 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textInputLayoutSummary"
-
+        style="@style/CustomTextInputLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="20dp"
@@ -81,6 +70,7 @@
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/textEditTextSummary"
+            style="@style/CustomInputEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="top|start"
@@ -91,6 +81,7 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textInputLayoutAuthor"
+        style="@style/CustomTextInputLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="20dp"
@@ -101,6 +92,7 @@
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/textEditTextAuthor"
+            style="@style/CustomInputEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/author" />
@@ -108,6 +100,7 @@
 
     <Spinner
         android:id="@+id/categoriesSpinner"
+        style="@style/CustomSpinner"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginHorizontal="20dp"
@@ -116,12 +109,13 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textInputLayoutAuthor" />
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnAddBook"
         style="@style/CustomButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/add_book"
+        android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/categoriesSpinner" />
@@ -131,6 +125,7 @@
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_marginTop="20dp"
+        android:progressTint="@color/primary"
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

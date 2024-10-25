@@ -10,11 +10,6 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 
-interface AuthRepository {
-    fun register(userRegisterPost: UserRegisterPost): Flow<UserResponse>
-    fun login(userLoginPost: UserLoginPost): Flow<TokenResponse>
-}
-
 class AuthRepositoryImpl(
     private val authService: AuthService,
     private val ioDispatcher: CoroutineDispatcher
@@ -25,10 +20,7 @@ class AuthRepositoryImpl(
         return flow {
             try {
                 val res = authService.register(userRegisterPost)
-                val resBody = NetworkHelper.extractErrorFromJson(res.errorBody()?.string())
-                if (resBody != null) throw Exception(resBody)
-                if (!res.isSuccessful) throw Exception(res.message().toString())
-                val user = res.body() ?: throw Exception("User null")
+                val user = NetworkHelper.handleNetworkErrors(res)
                 emit(user)
             } catch (e: Exception) {
                 throw e
@@ -42,10 +34,7 @@ class AuthRepositoryImpl(
         return flow {
             try {
                 val res = authService.login(userLoginPost)
-                val resBody = NetworkHelper.extractErrorFromJson(res.errorBody()?.string())
-                if (resBody != null) throw Exception(resBody)
-                if (!res.isSuccessful) throw Exception(res.message().toString())
-                val user = res.body() ?: throw Exception("Token null")
+                val user = NetworkHelper.handleNetworkErrors(res)
                 emit(user)
             } catch (e: Exception) {
                 throw e

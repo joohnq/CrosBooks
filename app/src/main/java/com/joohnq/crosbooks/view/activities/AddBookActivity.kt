@@ -11,8 +11,8 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
-import com.joohnq.crosbooks.UiState.Companion.fold
-import com.joohnq.crosbooks.UiState.Companion.onSuccess
+import com.joohnq.crosbooks.view.state.UiState.Companion.fold
+import com.joohnq.crosbooks.view.state.UiState.Companion.onSuccess
 import com.joohnq.crosbooks.common.FieldValidation
 import com.joohnq.crosbooks.common.exceptions.CustomException
 import com.joohnq.crosbooks.databinding.ActivityAddBookBinding
@@ -120,7 +120,6 @@ class AddBookActivity : AppCompatActivity() {
             initCategoriesSpinner()
             bindButtons()
             initTestFields()
-            observers()
             whenInputValueChange()
         }
     }
@@ -155,11 +154,10 @@ class AddBookActivity : AppCompatActivity() {
                 CustomException.AuthorCannotBeEmpty()
             )
 
-
             lifecycleScope.launch(ioDispatcher) {
                 val url = booksViewModel.sendBookImage(bookImageUri!!)
 
-                binding.root.showSnackBar("Success to add the book image")
+                binding.root.showSnackBar("Successfully added the book image")
 
                 if (selectedCategoryId == null) throw CustomException.CategoryNotSelected()
 
@@ -171,11 +169,9 @@ class AddBookActivity : AppCompatActivity() {
                     categoryId = selectedCategoryId!!
                 )
 
-                val res = booksViewModel.addBook(bookPost!!)
+                 booksViewModel.addBook(bookPost!!)
 
-                if (!res) throw CustomException.BookNotAdded()
-
-                binding.root.showSnackBar("Success to add the book")
+                binding.root.showSnackBar("Successfully added the book")
             }
         } catch (e: CustomException.TitleCannotBeEmpty) {
             textInputLayoutTitle.error = e.message
@@ -191,7 +187,7 @@ class AddBookActivity : AppCompatActivity() {
     private fun ActivityAddBookBinding.bindButtons() {
         btnAddBook.setOnClickListener { onAddBook() }
         topAppBar.setNavigationOnClickListener { finish() }
-        bookImageFrame.setOnClickListener {
+        bookImage.setOnClickListener {
             val isAllowed = permissionManager.verifyGalleryPermission()
 
             if (!isAllowed) {
@@ -201,22 +197,6 @@ class AddBookActivity : AppCompatActivity() {
 
             activityResultLauncherGalleryImagePicker.launch(
                 PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
-            )
-        }
-    }
-
-    private fun ActivityAddBookBinding.observers() {
-        booksViewModel.addCurrentBookStatus.observe(this@AddBookActivity) { state ->
-            state.fold(
-                onLoading = { binding.toggleIsLoading(true) },
-                onError = {
-                    binding.toggleIsLoading(false)
-                    binding.root.showSnackBar(it)
-                },
-                onSuccess = {
-                    binding.root.showSnackBar("Successfully added book")
-                    toggleIsLoading(false)
-                }
             )
         }
     }

@@ -18,7 +18,6 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 class BookDetailActivity : AppCompatActivity() {
     private var _binding: ActivityBookDetailBinding? = null
     private val binding: ActivityBookDetailBinding get() = _binding!!
-    private var id: Int? = null
     private val booksViewModel: BooksViewModel by viewModel()
     private val ioDispatcher: CoroutineDispatcher by inject()
 
@@ -32,15 +31,13 @@ class BookDetailActivity : AppCompatActivity() {
         enableEdgeToEdge()
         _binding = ActivityBookDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        binding.root.setOnApplyWindowInsetsListener()
-        val book = getIntentBook()
-        if (book == null) {
-            binding.isError = true
-        } else {
-            binding.book = book
-            id = book.id
+        binding.apply {
+            root.setOnApplyWindowInsetsListener()
+            bindButtons()
+            val bookIntent = getIntentBook()
+            isError = bookIntent == null
+            book = bookIntent
         }
-        binding.bindButtons()
     }
 
     private fun getIntentBook(): Book? =
@@ -50,23 +47,20 @@ class BookDetailActivity : AppCompatActivity() {
             intent.getParcelableExtra("book")
         }
 
-    private fun getBook() {
+    private fun ActivityBookDetailBinding.getBookDetail() {
         lifecycleScope.launch(ioDispatcher) {
             try {
-                binding.book = booksViewModel.getBookDetail(id!!)
-                binding.isLoading = false
+                book = booksViewModel.getBookDetail(book!!.id)
+                swipeRefreshLayout.isRefreshing = false
             } catch (e: Exception) {
-                binding.root.showSnackBar(e.message.toString())
-                binding.isError = true
+                root.showSnackBar(e.message.toString())
+                isError = true
             }
         }
     }
 
     private fun ActivityBookDetailBinding.bindButtons() {
-        swipeRefreshLayout.setOnRefreshListener {
-            isLoading = true
-            getBook()
-        }
+        swipeRefreshLayout.setOnRefreshListener { getBookDetail() }
         topAppBar.setNavigationOnClickListener { finish() }
     }
 }

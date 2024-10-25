@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.joohnq.crosbooks.UiState
+import com.joohnq.crosbooks.view.state.UiState
 import com.joohnq.crosbooks.model.entities.UserLoginPost
 import com.joohnq.crosbooks.model.entities.UserRegisterPost
 import com.joohnq.crosbooks.model.network.auth.AuthRepositoryImpl

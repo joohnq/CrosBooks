@@ -3,9 +3,6 @@ package com.joohnq.crosbooks.model.network
 import android.content.ContentResolver
 import android.content.Context
 import android.net.Uri
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.flowOn
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
@@ -34,9 +31,21 @@ object NetworkHelper {
         }
     }
 
+    fun <T> handleNetworkErrors(res: Response<T>): T {
+        val resBody = extractErrorFromJson(res.errorBody()?.string())
+        if (resBody != null) throw Exception(resBody)
+        if (!res.isSuccessful) throw Exception(res.message().toString())
+        return res.body() ?: throw Exception("Something went wrong")
+    }
+
+    fun <T> handleNetworkErrorsWithoutBody(res: Response<T>) {
+        val resBody = extractErrorFromJson(res.errorBody()?.string())
+        if (resBody != null) throw Exception(resBody)
+        if (!res.isSuccessful) throw Exception(res.message().toString())
+    }
+
     fun convertUriToMultipartBodyPart(context: Context, uri: Uri): MultipartBody.Part {
-        val file = getFileFromUri(context, uri)
-        if (file == null) throw Exception("File is null")
+        val file = getFileFromUri(context, uri) ?: throw Exception("Something went wrong")
         val requestBody = file.asRequestBody("image/*".toMediaTypeOrNull())
         return MultipartBody.Part.createFormData("file", file.name, requestBody)
     }
@@ -53,5 +62,4 @@ object NetworkHelper {
             tempFile
         }
     }
-
 }

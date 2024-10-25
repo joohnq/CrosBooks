@@ -18,7 +18,7 @@ object BookViewBinding {
     @JvmStatic
     fun setAuthor(textView: TextView, author: String) {
         textView.text = textView.context.getString(
-            R.string.author,
+            R.string.author_show,
             author
         )
     }

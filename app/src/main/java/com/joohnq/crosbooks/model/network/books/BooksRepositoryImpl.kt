@@ -2,28 +2,19 @@ package com.joohnq.crosbooks.model.network.books
 
 import android.content.Context
 import android.net.Uri
+import android.util.Log
+import com.joohnq.crosbooks.constants.AppConstants
 import com.joohnq.crosbooks.model.entities.Book
 import com.joohnq.crosbooks.model.entities.BookImageResponse
 import com.joohnq.crosbooks.model.entities.BookPost
 import com.joohnq.crosbooks.model.entities.BooksResponse
 import com.joohnq.crosbooks.model.network.NetworkHelper
+import com.joohnq.crosbooks.model.network.NetworkHelper.extractErrorFromJson
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import okhttp3.MultipartBody
-
-
-interface BooksRepository {
-    fun getBooks(): Flow<BooksResponse>
-    fun sendBookImage(
-        uri: Uri
-    ): Flow<BookImageResponse>
-
-    fun addBook(bookPost: BookPost): Flow<Book>
-    fun removeBook(id: Int): Flow<Boolean>
-    fun getBookDetail(id: Int): Flow<Book>
-}
 
 class BooksRepositoryImpl(
     private val booksService: BooksService,
@@ -31,14 +22,30 @@ class BooksRepositoryImpl(
     private val context: Context
 ) : BooksRepository {
     override fun getBooks(
+        page: Int
     ): Flow<BooksResponse> {
         return flow {
             try {
-                val res = booksService.getBooks()
-                val resBody = NetworkHelper.extractErrorFromJson(res.errorBody()?.string())
+                val res = booksService.getBooks(page)
+                val resBody = extractErrorFromJson(res.errorBody()?.string())
                 if (resBody != null) throw Exception(resBody)
                 if (!res.isSuccessful) throw Exception(res.message().toString())
-                val books = res.body() ?: throw Exception("Books is null")
+                val books = res.body() ?: throw Exception("Something went wrong")
+                emit(books)
+            } catch (e: Exception) {
+                throw e
+            }
+        }.flowOn(ioDispatcher)
+    }
+
+    override fun getBooks(
+        search: String,
+        page: Int
+    ): Flow<BooksResponse> {
+        return flow {
+            try {
+                val res = booksService.getBooks(search,page)
+                val books = NetworkHelper.handleNetworkErrors(res)
                 emit(books)
             } catch (e: Exception) {
                 throw e
@@ -54,10 +61,7 @@ class BooksRepositoryImpl(
                 val body: MultipartBody.Part =
                     NetworkHelper.convertUriToMultipartBodyPart(context, uri)
                 val res = booksService.sendBookImage(body)
-                val resBody = NetworkHelper.extractErrorFromJson(res.errorBody()?.string())
-                if (resBody != null) throw Exception(resBody)
-                if (!res.isSuccessful) throw Exception(res.message().toString())
-                val url = res.body() ?: throw Exception("Url is null")
+                val url = NetworkHelper.handleNetworkErrors(res)
                 emit(url)
             } catch (e: Exception) {
                 throw e
@@ -69,10 +73,7 @@ class BooksRepositoryImpl(
         return flow {
             try {
                 val res = booksService.addBook(bookPost)
-                val resBody = NetworkHelper.extractErrorFromJson(res.errorBody()?.string())
-                if (resBody != null) throw Exception(resBody)
-                if (!res.isSuccessful) throw Exception(res.message().toString())
-                val url = res.body() ?: throw Exception("Body is null")
+                val url = NetworkHelper.handleNetworkErrors(res)
                 emit(url)
             } catch (e: Exception) {
                 throw e
@@ -84,9 +85,7 @@ class BooksRepositoryImpl(
         return flow {
             try {
                 val res = booksService.removeBook(id)
-                val resBody = NetworkHelper.extractErrorFromJson(res.errorBody()?.string())
-                if (resBody != null) throw Exception(resBody)
-                if (!res.isSuccessful) throw Exception(res.message().toString())
+                NetworkHelper.handleNetworkErrorsWithoutBody(res)
                 emit(true)
             } catch (e: Exception) {
                 throw e
@@ -98,10 +97,7 @@ class BooksRepositoryImpl(
         return flow {
             try {
                 val res = booksService.getBookDetail(id)
-                val resBody = NetworkHelper.extractErrorFromJson(res.errorBody()?.string())
-                if (resBody != null) throw Exception(resBody)
-                if (!res.isSuccessful) throw Exception(res.message().toString())
-                val book = res.body() ?: throw Exception("Book is null")
+                val book = NetworkHelper.handleNetworkErrors(res)
                 emit(book)
             } catch (e: Exception) {
                 throw e

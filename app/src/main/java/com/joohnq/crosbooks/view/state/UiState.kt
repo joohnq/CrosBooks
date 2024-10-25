@@ -1,6 +1,4 @@
-package com.joohnq.crosbooks
-
-import com.joohnq.crosbooks.view.state.RecyclerViewState
+package com.joohnq.crosbooks.view.state
 
 sealed class UiState<out T> {
     data object Loading : UiState<Nothing>()
@@ -72,6 +70,14 @@ sealed class UiState<out T> {
 
                 is Idle -> RecyclerViewState.Idle
             }
+        }
+
+        fun <T> UiState<MutableList<T>>?.value(): MutableList<T> = when (this) {
+            is Success<MutableList<T>> -> {
+                this.data
+            }
+
+            else -> mutableListOf()
         }
     }
 }

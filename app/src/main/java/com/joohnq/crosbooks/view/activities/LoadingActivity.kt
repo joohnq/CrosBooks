@@ -1,13 +1,13 @@
 package com.joohnq.crosbooks.view.activities
 
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import com.joohnq.crosbooks.UiState.Companion.onSuccess
+import com.joohnq.crosbooks.ConnectivityManager
 import com.joohnq.crosbooks.databinding.ActivityLoadingBinding
 import com.joohnq.crosbooks.view.navigation.navigateToActivity
 import com.joohnq.crosbooks.view.setOnApplyWindowInsetsListener
+import com.joohnq.crosbooks.view.state.UiState.Companion.onSuccess
 import com.joohnq.crosbooks.viewmodel.UserPreferencesViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -26,13 +26,19 @@ class LoadingActivity : AppCompatActivity() {
         enableEdgeToEdge()
         _binding = ActivityLoadingBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        binding.isError = false
         binding.root.setOnApplyWindowInsetsListener()
-        userPreferencesViewModel.getToken()
-        observers()
+        val hasInternet = ConnectivityManager.isInternetAvailable(this@LoadingActivity)
+        if (hasInternet) {
+            userPreferencesViewModel.getToken()
+            observers()
+        }else{
+            binding.isError = true
+        }
     }
 
     private fun observers() {
-        userPreferencesViewModel.token.observe(this) { state ->
+        userPreferencesViewModel.token.observe(this@LoadingActivity) { state ->
             state.onSuccess { token ->
                 val activity =
                     if (token.isNullOrEmpty()) AuthActivity::class.java else HomeActivity::class.java

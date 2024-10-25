@@ -1,10 +1,10 @@
 package com.joohnq.crosbooks.di
 
 import com.joohnq.crosbooks.constants.ApiConstants
+import com.joohnq.crosbooks.model.entities.Book
 import com.joohnq.crosbooks.model.local.UserPreferencesRepository
 import com.joohnq.crosbooks.model.local.UserPreferencesRepositoryImpl
 import com.joohnq.crosbooks.model.local.getUserPreferencesDatastore
-import com.joohnq.crosbooks.model.network.SwaggerDataSource
 import com.joohnq.crosbooks.model.network.auth.AuthInterceptor
 import com.joohnq.crosbooks.model.network.auth.AuthRepository
 import com.joohnq.crosbooks.model.network.auth.AuthRepositoryImpl
@@ -19,6 +19,7 @@ import com.joohnq.crosbooks.view.permission.PermissionManager
 import com.joohnq.crosbooks.viewmodel.AuthViewModel
 import com.joohnq.crosbooks.viewmodel.BooksViewModel
 import com.joohnq.crosbooks.viewmodel.CategoriesViewModel
+import com.joohnq.crosbooks.viewmodel.SearchViewModel
 import com.joohnq.crosbooks.viewmodel.UserPreferencesViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
@@ -42,6 +43,7 @@ val viewModelModule = module {
     viewModelOf(::BooksViewModel)
     viewModelOf(::AuthViewModel)
     viewModelOf(::UserPreferencesViewModel)
+    viewModelOf(::SearchViewModel)
 }
 
 val repositoryModule = module {
@@ -52,12 +54,12 @@ val repositoryModule = module {
 }
 
 val networkModule = module {
+    singleOf(::AuthInterceptor)
     single<HttpLoggingInterceptor> {
         HttpLoggingInterceptor().apply {
             level = HttpLoggingInterceptor.Level.BODY
         }
     }
-    singleOf(::AuthInterceptor)
     single<OkHttpClient> {
         OkHttpClient.Builder()
             .addInterceptor(get<HttpLoggingInterceptor>())
@@ -72,13 +74,12 @@ val networkModule = module {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
     }
-    singleOf(::SwaggerDataSource)
 }
 
 val servicesModule = module {
-    single<AuthService> { get<SwaggerDataSource>().authService }
-    single<BooksService> { get<SwaggerDataSource>().booksService }
-    single<CategoriesService> { get<SwaggerDataSource>().categoriesService }
+    single<AuthService> { get<Retrofit>().create(AuthService::class.java) }
+    single<BooksService> { get<Retrofit>().create(BooksService::class.java) }
+    single<CategoriesService> { get<Retrofit>().create(CategoriesService::class.java) }
 }
 
 val allModules = listOf(
