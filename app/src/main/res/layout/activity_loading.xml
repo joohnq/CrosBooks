@@ -15,7 +15,7 @@
         android:background="@color/background">
 
         <ProgressBar
-            android:progressTint="@color/primary"
+            android:indeterminateTint="@color/primary"
             android:layout_width="60dp"
             android:layout_height="60dp"
             app:layout_constraintBottom_toBottomOf="parent"

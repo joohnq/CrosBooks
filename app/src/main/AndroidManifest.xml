@@ -19,7 +19,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CrosBooks"
         android:usesCleartextTraffic="true"
-        tools:targetApi="31">
+        android:configChanges="orientation"
+        android:screenOrientation="portrait"
+        tools:targetApi="31"
+        tools:ignore="DiscouragedApi">
         <activity
             android:name=".view.activities.AddBookActivity"
             android:exported="false"

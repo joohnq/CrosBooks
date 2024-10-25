@@ -93,11 +93,6 @@ class LoginFragment : Fragment() {
         }
     }
 
-    private fun FragmentLoginBinding.initTestFields() {
-        textEditTextEmail.setText("joao@gmail.com")
-        textEditTextPassword.setText("joao1234")
-    }
-
     private fun FragmentLoginBinding.whenInputValueChange() {
         textEditTextEmail.onChange(textInputLayoutEmail)
         textEditTextPassword.onChange(textInputLayoutPassword)
@@ -115,7 +110,6 @@ class LoginFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding.apply {
             bindButtons()
-            initTestFields()
             whenInputValueChange()
             isLoading = false
         }

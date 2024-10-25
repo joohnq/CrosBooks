@@ -122,15 +122,8 @@ class AddBookActivity : AppCompatActivity() {
             root.setOnApplyWindowInsetsListener()
             initCategoriesSpinner()
             bindButtons()
-            initTestFields()
             whenInputValueChange()
         }
-    }
-
-    private fun ActivityAddBookBinding.initTestFields() {
-        textEditTextTitle.setText("O Livro do João")
-        textEditTextAuthor.setText("João")
-        textEditTextSummary.setText("O livro do João é um clássico da literatura portuguesa")
     }
 
     private fun ActivityAddBookBinding.onAddBook() {

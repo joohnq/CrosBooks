@@ -44,6 +44,7 @@
                 style="@style/CustomInputEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:inputType="textEmailAddress"
                 android:hint="@string/email" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -79,7 +80,7 @@
             app:layout_constraintTop_toBottomOf="@id/textInputLayoutPassword" />
 
         <ProgressBar
-            android:progressTint="@color/primary"
+            android:indeterminateTint="@color/primary"
             android:id="@+id/isLoadingProgressBar"
             android:layout_width="50dp"
             android:layout_height="50dp"

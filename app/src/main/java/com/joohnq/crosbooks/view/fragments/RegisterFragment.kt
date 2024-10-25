@@ -85,13 +85,6 @@ class RegisterFragment : Fragment() {
         }
     }
 
-    private fun FragmentRegisterBinding.initTestFields() {
-        textEditTextName.setText("João")
-        textEditTextEmail.setText("joao@gmail.com")
-        textEditTextPassword.setText("joao1234")
-        textEditTextConfirmPassword.setText("joao1234")
-    }
-
     private fun FragmentRegisterBinding.whenInputValueChange() {
         textEditTextName.onChange(textInputLayoutName)
         textEditTextEmail.onChange(textInputLayoutEmail)
@@ -116,7 +109,6 @@ class RegisterFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding.apply {
             bindButtons()
-            initTestFields()
             whenInputValueChange()
             isLoading = false
         }
