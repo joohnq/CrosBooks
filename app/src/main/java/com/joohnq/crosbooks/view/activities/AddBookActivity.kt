@@ -30,7 +30,6 @@ import com.joohnq.crosbooks.viewmodel.BooksViewModel
 import com.joohnq.crosbooks.viewmodel.CategoriesViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -55,9 +54,7 @@ class AddBookActivity : AppCompatActivity() {
         }
 
     private fun ActivityAddBookBinding.toggleIsLoading(state: Boolean) {
-        runBlocking {
-            isLoadingProgressBar.visibility = if (state) View.VISIBLE else View.GONE
-        }
+        isLoadingProgressBar.visibility = if (state) View.VISIBLE else View.GONE
     }
 
     override fun onRequestPermissionsResult(
@@ -157,7 +154,9 @@ class AddBookActivity : AppCompatActivity() {
                 val url = booksViewModel.sendBookImage(bookImageUri!!)
 
                 binding.root.showSnackBar("Successfully added the book image")
-                toggleIsLoading(false)
+                runOnUiThread {
+                    toggleIsLoading(false)
+                }
 
                 if (selectedCategoryId == null) throw CustomException.CategoryNotSelected()
 
@@ -171,7 +170,9 @@ class AddBookActivity : AppCompatActivity() {
 
                 booksViewModel.addBook(bookPost!!)
 
-                binding.root.showSnackBar("Successfully added the book")
+                runOnUiThread {
+                    binding.root.showSnackBar("Successfully added the book")
+                }
             }
         } catch (e: CustomException.TitleCannotBeEmpty) {
             textInputLayoutTitle.error = e.message
